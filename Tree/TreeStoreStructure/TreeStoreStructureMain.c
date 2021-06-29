@@ -6,6 +6,21 @@
 
 int main() {
 	PTree myTree;
+	InitPTree(&myTree, 'A');
+	AddNode(&myTree, 'B', 0);
+	AddNode(&myTree, 'C', 0);
+	AddNode(&myTree, 'D', 0);
+	AddNode(&myTree, 'E', 1);
+	AddNode(&myTree, 'F', 1);
+	AddNode(&myTree, 'G', 2);
+	AddNode(&myTree, 'H', 3);
+	AddNode(&myTree, 'I', 3);
+	AddNode(&myTree, 'J', 3);
+	AddNode(&myTree, 'K', 4);
+	AddNode(&myTree, 'L', 4);
+	AddNode(&myTree, 'M', 7);
+
+	DeleteNode(&myTree, 4);
 
 	return 0;
 }
