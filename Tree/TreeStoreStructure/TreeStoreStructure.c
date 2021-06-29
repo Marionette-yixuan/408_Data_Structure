@@ -5,7 +5,6 @@
 #include "TreeStoreStructure.h"
 
 #ifdef PARENT_MODE
-
 void InitPTree(PTree *pTree, ElemType rootData) {
 	for (int i = 0; i < MAX_TREE_SIZE; i++) {
 		pTree->nodes[i].data = '\0';
@@ -13,20 +12,18 @@ void InitPTree(PTree *pTree, ElemType rootData) {
 	}
 
 	pTree->nodeNum = 0;
-	PTNode *rootNode = (PTNode *) malloc(sizeof(PTNode));
-	rootNode->data = rootData;
-	rootNode->parent = -1;
-	pTree->nodes[0] = *rootNode;
+
+	pTree->nodes[0].data = rootData;
+	pTree->nodes[0].parent = -1;
 	pTree->nodeNum++;
 }
 
 void AddNode(PTree *pTree, ElemType newData, int parent) {
 	if (pTree->nodeNum >= MAX_TREE_SIZE) return;
 
-	PTNode *newNode = (PTNode *) malloc(sizeof(PTNode));
-	newNode->data = newData;
-	newNode->parent = parent;
-	pTree->nodes[pTree->nodeNum] = *newNode;        // nodeNum就是新结点的下标
+	pTree->nodes[pTree->nodeNum].data = newData;    // nodeNum就是新结点所在的下标
+	pTree->nodes[pTree->nodeNum].parent = parent;
+
 	pTree->nodeNum++;
 }
 
@@ -46,6 +43,59 @@ void DeleteNode(PTree *pTree, int index) {
 	/* 最后一位结点清零 */
 	pTree->nodes[pTree->nodeNum].data = '\0';
 	pTree->nodes[pTree->nodeNum].parent = -1;
+}
+#endif
+
+#ifdef CHILD_MODE
+
+void InitTree(CTree *cTree, ElemType rootData) {
+	for (int i = 0; i < MAX_TREE_SIZE; i++) {
+		cTree->nodes[i].data = '\0';
+		cTree->nodes[i].firstChild = NULL;
+	}
+	cTree->nodeNum = 0;
+
+	cTree->nodes[0].data = rootData;
+	cTree->nodeNum++;
+	cTree->rootPos = 0;
+}
+
+void AddNode(CTree *cTree, ElemType newData, int parent) {
+	if (cTree->nodeNum >= MAX_TREE_SIZE) return;
+
+	int i;
+	for (i = 0; cTree->nodes[i].data != '\0'; i++);      // 找到第一个空位
+	cTree->nodes[i].data = newData;
+
+	/* 循环找到parent结点的最后一个孩子指针 */
+	struct CTNode *lastChild = cTree->nodes[parent].firstChild;
+	while (lastChild && lastChild->next)     // 先判断parent是否有firstChild，没有的话lastChild为空
+		lastChild = lastChild->next;
+
+	struct CTNode *newChild = (struct CTNode *) malloc(sizeof(struct CTNode));
+	newChild->child = i;   // 记录新结点在数组中的位置
+	newChild->next = NULL;
+
+	if (lastChild)
+		lastChild->next = newChild;
+	else
+		cTree->nodes[parent].firstChild = newChild;
+
+	cTree->nodeNum++;
+}
+
+void DeleteNode(CTree *cTree, int index) {
+	struct CTNode *child = cTree->nodes[index].firstChild;
+	while (child) {      // 递归删除index结点的所有子结点
+		int childIndex = child->child;
+		DeleteNode(cTree, childIndex);
+
+		cTree->nodeNum--;
+		child = child->next;
+	}
+	cTree->nodes[index].data = '\0';
+	cTree->nodes[index].firstChild = NULL;
+	cTree->nodeNum--;
 }
 
 #endif
