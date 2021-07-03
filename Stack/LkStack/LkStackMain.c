@@ -9,7 +9,7 @@ bool test3_17();
 bool test3_19();
 
 int main() {
-	LinkStack L;
+	LinkList L;
 	ElemType e;
 	InitStack(&L);
 /*  // 栈测试程序
@@ -72,7 +72,7 @@ int main() {
 
 bool test3_17() {
 	char inc, popc;
-	LinkStack S;
+	LinkList S;
 	InitStack(&S);
 	do {
 		inc = (char) getchar();
@@ -87,7 +87,7 @@ bool test3_17() {
 }
 
 bool test3_19() {
-	LinkStack S;
+	LinkList S;
 	InitStack(&S);
 	char inc, popc;
 	do {

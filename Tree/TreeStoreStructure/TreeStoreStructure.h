@@ -11,7 +11,7 @@
 
 #define ElemType char
 
-#define CHILD_MODE         // 更改这行换用不同的表示法
+#define CHILDSIB_MODE         // 更改这行换用不同的表示法
 
 #define MAX_TREE_SIZE 100   // 树中最大结点数
 
@@ -49,6 +49,19 @@ void InitTree(CTree *cTree, ElemType rootData);
 void AddNode(CTree *cTree, ElemType newData, int parent);
 
 void DeleteNode(CTree *cTree, int index);
+#endif
+
+#ifdef CHILDSIB_MODE        // 孩子兄弟表示法（链式存储）
+typedef struct CSNode {
+  ElemType data;
+  struct CSNode *firstChild, *nextSib;      // 第一个孩子、右兄弟指针
+} CSNode, *CSTree;
+
+void InitTree(CSTree *csTree, ElemType rootData);
+
+void AddNode(CSNode *parentNode, ElemType newData);
+
+void DeleteNode(CSNode *delNode);
 
 #endif
 

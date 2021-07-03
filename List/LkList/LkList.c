@@ -4,14 +4,14 @@
 
 #include "LkList.h"
 
-bool InitList_Lk(LinkStack *L) {
+bool InitList_Lk(LinkList *L) {
 	LNode *head_node = (LNode *) malloc(sizeof(LNode));
 	head_node->next = NULL;
 	*L = head_node;
 	return true;
 }
 
-bool GetElem_L(LinkStack L, int i, ElemType *e) {
+bool GetElem_L(LinkList L, int i, ElemType *e) {
 	LNode *p = L->next;
 	int j = 1;      // 此时p已经指向头结点的下一个结点（首元结点），即第1个结点
 	while (p && j < i) {
@@ -23,7 +23,7 @@ bool GetElem_L(LinkStack L, int i, ElemType *e) {
 	return true;
 }
 
-bool ListInsert_Lk(LinkStack L, int i, ElemType e) {
+bool ListInsert_Lk(LinkList L, int i, ElemType e) {
 	LNode *p = L;
 	int j = 0;      // 此时p指向头结点，故j初始为0
 	while (p && j < i - 1) {
@@ -39,7 +39,7 @@ bool ListInsert_Lk(LinkStack L, int i, ElemType e) {
 	return true;
 }
 
-bool ListDelete_Lk(LinkStack L, int i, ElemType *e) {
+bool ListDelete_Lk(LinkList L, int i, ElemType *e) {
 	LNode *p = L;
 	int j = 0;
 	while (p && j < i - 1) {
@@ -54,7 +54,7 @@ bool ListDelete_Lk(LinkStack L, int i, ElemType *e) {
 	return true;
 }
 
-void ListTraverse(LinkStack L) {
+void ListTraverse(LinkList L) {
 	LNode *p = L;
 	while (p->next) {
 		p = p->next;

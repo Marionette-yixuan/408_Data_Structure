@@ -5,7 +5,7 @@
 #include "LkList.h"
 
 int main() {
-	LinkStack L;
+	LinkList L;
 	ElemType e = 0;
 	InitList_Lk(&L);
 	ListInsert_Lk(L, 1, 24);

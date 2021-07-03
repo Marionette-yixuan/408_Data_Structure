@@ -19,32 +19,32 @@
 typedef struct LNode {
   ElemType data;
   struct LNode *next;
-} LNode, *LinkStack;
+} LNode, *LinkList;
 
 // 带头结点
-bool InitStack(LinkStack *);
+bool InitStack(LinkList *);
 
-bool GetTop(LinkStack, ElemType *);
+bool GetTop(LinkList, ElemType *);
 
-bool Push(LinkStack, ElemType);
+bool Push(LinkList, ElemType);
 
-bool Pop(LinkStack, ElemType *);
+bool Pop(LinkList, ElemType *);
 
-void StackTraverse(LinkStack);
+void StackTraverse(LinkList);
 
 // 不带头结点
-bool InitStack_Wo(LinkStack *);
+bool InitStack_Wo(LinkList *);
 
-bool GetTop_Wo(LinkStack, ElemType *);
+bool GetTop_Wo(LinkList, ElemType *);
 
-bool Push_Wo(LinkStack *, ElemType);
+bool Push_Wo(LinkList *, ElemType);
 
-bool Pop_Wo(LinkStack *, ElemType *);
+bool Pop_Wo(LinkList *, ElemType *);
 
-void StackTraverse_Wo(LinkStack);
+void StackTraverse_Wo(LinkList);
 
-void ClearStack(LinkStack);
+void ClearStack(LinkList);
 
-void OutPut(LinkStack);
+void OutPut(LinkList);
 
 #endif

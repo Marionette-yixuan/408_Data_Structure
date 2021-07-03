@@ -16,7 +16,7 @@ bool test3_31() {
 	char inc, outqc, outsc;
 	LinkQueue Q;
 	InitQueue(&Q);
-	LinkStack S;
+	LinkList S;
 	InitStack(&S);
 	while ((inc = getchar()) != '\n') {
 		Push(S, inc);

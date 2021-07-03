@@ -4,7 +4,7 @@
 
 #include "LkStack.h"
 
-bool InitStack(LinkStack *S) {
+bool InitStack(LinkList *S) {
 	LNode *head_node = (LNode *) malloc(sizeof(LNode));
 	if (!head_node) return false;
 	head_node->next = NULL;
@@ -12,14 +12,14 @@ bool InitStack(LinkStack *S) {
 	return true;
 }
 
-bool GetTop(LinkStack L, ElemType *e) {
+bool GetTop(LinkList L, ElemType *e) {
 	LNode *first_node = L->next;
 	if (!first_node) return false;       // 空栈
 	*e = first_node->data;
 	return true;
 }
 
-bool Push(LinkStack L, ElemType e) {
+bool Push(LinkList L, ElemType e) {
 	LNode *new_node = (LNode *) malloc(sizeof(LNode));
 	if (!new_node) return false;
 	new_node->data = e;
@@ -28,7 +28,7 @@ bool Push(LinkStack L, ElemType e) {
 	return true;
 }
 
-bool Pop(LinkStack L, ElemType *e) {
+bool Pop(LinkList L, ElemType *e) {
 	LNode *first_node = L->next;
 	if (!first_node) return false;
 	*e = first_node->data;
@@ -37,7 +37,7 @@ bool Pop(LinkStack L, ElemType *e) {
 	return true;
 }
 
-void StackTraverse(LinkStack L) {
+void StackTraverse(LinkList L) {
 	LNode *p = L;
 	while (p->next) {
 		p = p->next;
@@ -46,18 +46,18 @@ void StackTraverse(LinkStack L) {
 	printf("\n");
 }
 
-bool InitStack_Wo(LinkStack *L) {
+bool InitStack_Wo(LinkList *L) {
 	*L = NULL;      // 不带头结点时，头指针最开始指向NULL
 	return true;
 }
 
-bool GetTop_Wo(LinkStack L, ElemType *e) {
+bool GetTop_Wo(LinkList L, ElemType *e) {
 	if (!L) return false;
 	*e = L->data;
 	return true;
 }
 
-bool Push_Wo(LinkStack *L, ElemType e) {
+bool Push_Wo(LinkList *L, ElemType e) {
 	LNode *new_node = (LNode *) malloc(sizeof(LNode));
 	if (!new_node) return false;
 	new_node->data = e;
@@ -67,7 +67,7 @@ bool Push_Wo(LinkStack *L, ElemType e) {
 	return true;
 }
 
-bool Pop_Wo(LinkStack *L, ElemType *e) {
+bool Pop_Wo(LinkList *L, ElemType *e) {
 	if (!L) return false;
 	LNode *first_node = *L;
 	*e = first_node->data;
@@ -76,7 +76,7 @@ bool Pop_Wo(LinkStack *L, ElemType *e) {
 	return true;
 }
 
-void StackTraverse_Wo(LinkStack L) {
+void StackTraverse_Wo(LinkList L) {
 	LNode *p = L;
 	while (p) {
 		printf("%d ", p->data);
@@ -85,15 +85,15 @@ void StackTraverse_Wo(LinkStack L) {
 	printf("\n");
 }
 
-void ClearStack(LinkStack L) {
+void ClearStack(LinkList L) {
 	ElemType e;
 	while (L->next)
 		Pop(L, &e);
 }
 
-void OutPut(LinkStack L) {
+void OutPut(LinkList L) {
 	LNode *p = L;
-	LinkStack cache_stack;
+	LinkList cache_stack;
 	InitStack(&cache_stack);
 	while (p->next) {
 		p = p->next;

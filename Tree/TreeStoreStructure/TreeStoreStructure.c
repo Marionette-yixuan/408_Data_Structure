@@ -47,7 +47,6 @@ void DeleteNode(PTree *pTree, int index) {
 #endif
 
 #ifdef CHILD_MODE
-
 void InitTree(CTree *cTree, ElemType rootData) {
 	for (int i = 0; i < MAX_TREE_SIZE; i++) {
 		cTree->nodes[i].data = '\0';
@@ -97,5 +96,4 @@ void DeleteNode(CTree *cTree, int index) {
 	cTree->nodes[index].firstChild = NULL;
 	cTree->nodeNum--;
 }
-
 #endif

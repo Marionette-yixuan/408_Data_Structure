@@ -14,10 +14,10 @@ bool InitList_Sq(SqList *L) {
 bool ListInsert_Sq(SqList *L, int i, ElemType e) {
 	if (i < 1 || i > L->length + 1) return false;     // i的值不合法
 	if (L->length >= L->listsize) {                       // 当前存储空间已满，需要重新分配
-		ElemType *newbase = (ElemType *) realloc(L->elem,
+		ElemType *newBase = (ElemType *) realloc(L->elem,
 		                                         (L->listsize + LISTINCREMENT) * sizeof(ElemType));  // 重新分配存储空间
-		if (!newbase) return false;   // 空间分配失败
-		L->elem = newbase;              // 更新基址
+		if (!newBase) return false;     // 空间分配失败
+		L->elem = newBase;              // 更新基址
 		L->listsize += LISTINCREMENT;   // 增加表长
 	}
 	ElemType *q = &(L->elem[i - 1]);    // 获得插入位置的元素
@@ -43,5 +43,4 @@ void ListTraverse(SqList *L) {
 	for (ElemType *p = L->elem; p <= &(L->elem[L->length - 1]); p++)
 		printf("%d ", (*p));
 	printf("\n");
-	return;
 }
