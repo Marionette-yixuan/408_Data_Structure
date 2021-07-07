@@ -18,9 +18,9 @@
 #define ElemType char
 
 typedef struct {
-  ElemType *base;
-  ElemType *top;
-  int stack_size;
+  ElemType *base;       // 栈存储空间的基址，指向栈底的位置
+  ElemType *top;        // 当前栈顶的地址
+  int stack_size;       // 该顺序栈的最大容量
 } SqStack;
 
 bool InitStack_Sq(SqStack *);
