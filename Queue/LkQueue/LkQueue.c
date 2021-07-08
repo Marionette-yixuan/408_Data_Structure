@@ -69,14 +69,14 @@ int QueueLength_Wo(LinkQueue Q) {
 	return length;
 }
 
-bool EnQueue_Wo(LinkQueue *Q, ElemType e) {  // 入队操作与带头结点的队列完全一样
+bool EnQueue_Wo(LinkQueue *Q, ElemType e) {
 	QNode *new_node = (QNode *) malloc(sizeof(QNode));
 	if (!new_node) return false;
 	new_node->data = e;
-	if (Q->rear) {   // 当队列为空时，不执行下方两句
-		new_node->next = Q->rear->next;
+	new_node->next = Q->rear->next;
+	if (Q->rear)    // 队列不为空时操作与带头结点完全一样
 		Q->rear->next = new_node;
-	} else Q->front = new_node; // 首个元素入队后，头尾指针均指向该元素
+	else Q->front = new_node;   // 为空时，新结点也同时是队头结点
 	Q->rear = new_node;
 	return true;
 }
@@ -86,6 +86,8 @@ bool DeQueue_Wo(LinkQueue *Q, ElemType *e) {
 	QNode *de_node = Q->front;      // front直接指向首元结点
 	*e = de_node->data;
 	Q->front = de_node->next;
+	if (!Q->front)  // 若出队后队列为空，则将队尾指针也修改为NULL
+		Q->rear = NULL;
 	free(de_node);
 	return true;
 }
