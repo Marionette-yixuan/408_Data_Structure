@@ -6,67 +6,67 @@
 
 #ifdef FIX_STORE
 
-bool StrAssign(SString4 T, char *chars) {
+bool StrAssign(SString4 *T, char *chars) {
 	ClearString(T);
 	int i = 1;
-	for (; i < MAXSTRLEN; i++) {
-		char c = chars[i - 1];
+	while (i < MAXSTRLEN) {
+		char c = chars[i - 1];      // chars的第i位对应新字符串的i+1位
 		if (c != '\0')
-			T[i] = c;
+			T->ch[i] = c;
 		else break;
+		i++;
 	}
-	T[MAXSTRLEN] = i - 1;       // 由于i是从1开始的，所以长度是i-1
+	T->length = i - 1;           // 由于i初始为1，所以长度是i-1
 	return true;
 }
 
-int StrCompare(SString4 T, SString4 S) {     // 字符串比较，返回正数代表T较大，负数代表S较大
-	int i = 0;
-	int tlen = T[MAXSTRLEN], slen = S[MAXSTRLEN];
-	for (; i < tlen && i < slen; i++) {
-		if (T[i + 1] != S[i + 1])
-			return T[i + 1] - S[i + 1];
-		else continue;
+int StrCompare(SString4 T, SString4 S) {
+	int tLen = T.length, sLen = S.length;
+	for (int i = 0; i < tLen && i < sLen; i++) {
+		if (T.ch[i + 1] != S.ch[i + 1])
+			return T.ch[i + 1] - S.ch[i + 1];      // 若有任何一位不同，则返回不同的差值作为两个字符串的差
 	}
-	return tlen - slen;     // 若没有比较出大小，则根据长度作为依据
+	return tLen - sLen;     // 若某字符串遍历完成还未比出大小，则返回两字符串长度的差
 }
 
 int StrLength(SString4 S) {
-	return S[MAXSTRLEN];
+	return S.length;
 }
 
-bool Concat(SString4 Q, SString4 S, SString4 T) {
+bool Concat(SString4 *Q, SString4 S, SString4 T) {       // 将S和T的连接结果存入Q
 	ClearString(Q);
-	int qlen = 0;
-	for (int i = 0; i < S[MAXSTRLEN] && qlen < MAXSTRLEN; i++, qlen++)
-		Q[qlen + 1] = S[i + 1];
-	for (int i = 0; i < T[MAXSTRLEN] && qlen < MAXSTRLEN; i++, qlen++)
-		Q[qlen + 1] = T[i + 1];
-	Q[MAXSTRLEN] = qlen;
+	int qLen = 0;
+	for (int i = 0; i < S.length; i++, qLen++)
+		Q->ch[qLen + 1] = S.ch[i + 1];
+	for (int i = 0; i < T.length && qLen + 1 < MAXSTRLEN; i++, qLen++)       // 若两字符串相加后长度越界，则截断T剩下的字符
+		Q->ch[qLen + 1] = T.ch[i + 1];
+	Q->length = qLen;
 	return true;
 }
 
-bool SubString(SString4 Q, SString4 S, int pos, int len) {
+bool SubString(SString4 *Q, SString4 S, int pos, int len) {      // 将S串[pos, pos+len-1]位置的子串存放在Q中
 	ClearString(Q);
-	for (int i = 0; i < len && pos + i < MAXSTRLEN; i++) {
-		Q[i + 1] = S[pos + i];
+	int qLen = 0;
+	for (int i = 0; i < len && pos + i < MAXSTRLEN; i++, qLen++) {
+		Q->ch[i + 1] = S.ch[pos + i];
 	}
-	Q[MAXSTRLEN] = len;
+	Q->length = qLen;        // 如果越界，qLen就不等于len了
 	return true;
 }
 
-bool ClearString(SString4 T) {
-	for (int i = 0; i < MAXSTRLEN + 1; i++)
-		T[i] = NULL;
+bool ClearString(SString4 *T) {
+	for (int i = 1; i < MAXSTRLEN; i++)
+		T->ch[i] = '\0';
+	T->length = 0;
 	return true;
 }
 
 bool StrPrint(SString4 T) {
-	for (int i = 0; i < T[MAXSTRLEN]; i++)
-		printf("%c", T[i + 1]);
+	for (int i = 0; i < T.length; i++)
+		printf("%c", T.ch[i + 1]);
 	printf("\n");
 	return true;
 }
-
 
 #endif
 

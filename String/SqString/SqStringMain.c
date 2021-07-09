@@ -8,13 +8,13 @@ int main() {
 
 # ifdef FIX_STORE
 	SString4 T, S, Q;
-	StrAssign(T, "Never gonna");
-	StrAssign(S, " give you up");
+	StrAssign(&T, "Never gonna");
+	StrAssign(&S, " give you up");
 	StrPrint(T);
 	printf("%d\n", StrCompare(T, S));
-	Concat(Q, T, S);
+	Concat(&Q, T, S);
 	StrPrint(Q);
-	SubString(Q, T, 3, 6);
+	SubString(&Q, T, 3, 6);
 	StrPrint(Q);
 	printf("%d", StrLength(T));
 #endif

@@ -13,10 +13,16 @@
 
 /* 定长存储 */
 #define MAXSTRLEN 255
-typedef unsigned char SString1[MAXSTRLEN + 1];  // 最后一位存储串长
-typedef unsigned char SString2[MAXSTRLEN + 1];  // 0号位置存放串长，这种方式字符的位序和数组下标相同
+typedef struct {
+  unsigned char ch[MAXSTRLEN];
+  int length;
+} SString1;     // 使用一个变量来存储串的长度
+typedef unsigned char SString2[MAXSTRLEN];  // 0号位置存放串长，这种方式字符的位序和数组下标相同
 typedef unsigned char SString3[MAXSTRLEN];  // 串以'\0'作为结尾
-typedef unsigned char SString4[MAXSTRLEN + 1];  // 教材使用的版本：0位置弃用，最后一位存储串长
+typedef struct {
+  unsigned char ch[MAXSTRLEN];
+  int length;
+} SString4;     // 教材使用的版本：0位置弃用，单独一个变量存储串长
 
 /* 堆存储 */
 typedef struct {
@@ -26,12 +32,12 @@ typedef struct {
 
 #ifdef FIX_STORE
 
-bool StrAssign(SString4, char *);        // 字符串分配
+bool StrAssign(SString4 *, char *);        // 字符串分配
 int StrCompare(SString4, SString4);     // 字符串比较
 int StrLength(SString4);                // 字符串长度
-bool Concat(SString4, SString4, SString4);     // 字符串连接
-bool SubString(SString4, SString4, int, int);  // 求子串
-bool ClearString(SString4);             // 清空串
+bool Concat(SString4 *, SString4, SString4);     // 字符串连接
+bool SubString(SString4 *, SString4, int, int);  // 求子串
+bool ClearString(SString4 *);             // 清空串
 bool StrPrint(SString4);                // 打印串
 
 #endif
