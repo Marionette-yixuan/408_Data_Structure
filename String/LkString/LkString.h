@@ -9,9 +9,9 @@
 #ifndef INC_408_DATA_STRUCTURE_LKSTRING_H
 #define INC_408_DATA_STRUCTURE_LKSTRING_H
 
-#define CHUNKSIZE 5        // 每个块中存放的字符数量
-typedef struct Chunk {
-  char ch[CHUNKSIZE];
+#define CHUNKSIZE 5         // 每个块中存放的字符数量
+typedef struct Chunk {      // 块链中的一个块
+  char ch[CHUNKSIZE];       // 数据部分
   struct Chunk *next;
 } Chunk;
 typedef struct {
