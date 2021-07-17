@@ -45,9 +45,7 @@ typedef struct {
 } CTree;
 
 void InitTree(CTree *cTree, ElemType rootData);
-
 void AddNode(CTree *cTree, ElemType newData, int parent);
-
 void DeleteNode(CTree *cTree, int index);
 #endif
 
@@ -58,9 +56,7 @@ typedef struct CSNode {
 } CSNode, *CSTree;
 
 void InitTree(CSTree *csTree, ElemType rootData);
-
 void AddNode(CSNode *parentNode, ElemType newData);
-
 void DeleteNode(CSNode *delNode);
 
 #endif
