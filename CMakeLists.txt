@@ -21,4 +21,5 @@ add_executable(PatternConform String/PatternConform/SqString.c String/PatternCon
 add_executable(BinaryTree Tree/BinaryTree/BinaryTree.c Tree/BinaryTree/BinaryTree.h Tree/BinaryTree/BinaryTreeMain.c)
 add_executable(BinaryThreadTree Tree/BinaryThreadTree/BinaryThreadTree.c Tree/BinaryThreadTree/BinaryThreadTree.h Tree/BinaryThreadTree/BinaryThreadTreeMain.c)
 add_executable(TreeStoreStructure Tree/TreeStoreStructure/TreeStoreStructure.c Tree/TreeStoreStructure/TreeStoreStructure.h Tree/TreeStoreStructure/TreeStoreStructureMain.c)
+add_executable(TreeConversion Tree/TreeConversion/TreeConversion.c Tree/TreeConversion/TreeConversion.h Tree/TreeConversion/TreeConversionMain.c)
 add_executable(Expr Expr.c)

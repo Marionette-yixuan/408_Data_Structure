@@ -5,6 +5,7 @@
 #include "TreeStoreStructure.h"
 
 #ifdef PARENT_MODE
+
 void InitPTree(PTree *pTree, ElemType rootData) {
 	for (int i = 0; i < MAX_TREE_SIZE; i++) {
 		pTree->nodes[i].data = '\0';
@@ -44,6 +45,7 @@ void DeleteNode(PTree *pTree, int index) {
 	pTree->nodes[pTree->nodeNum].data = '\0';
 	pTree->nodes[pTree->nodeNum].parent = -1;
 }
+
 #endif
 
 #ifdef CHILD_MODE
