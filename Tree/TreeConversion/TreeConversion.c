@@ -14,21 +14,21 @@ void InitTree_T(TrTree *trTree, ElemType rootData) {
 }
 
 TrTNode *AddNode_T(TrTNode *parentNode, ElemType newData, int pos) {
-	TrTNode *newNode = (TrTNode *) malloc(sizeof(TrTNode));
-	newNode->data = newData;
-	newNode->lChild = NULL;
-	newNode->mChild = NULL;
-	newNode->rChild = NULL;
+    TrTNode *newNode = (TrTNode *) malloc(sizeof(TrTNode));
+    newNode->data = newData;
+    newNode->lChild = NULL;
+    newNode->mChild = NULL;
+    newNode->rChild = NULL;
 
-	if (pos == LEFT)
-		parentNode->lChild = newNode;
-	else if (pos == MID)
-		parentNode->mChild = newNode;
-	else if (pos == RIGHT)
-		parentNode->rChild = newNode;
-	else return NULL;
+    if (pos == LEFT)
+        parentNode->lChild = newNode;
+    else if (pos == MID)
+        parentNode->mChild = newNode;
+    else if (pos == RIGHT)
+        parentNode->rChild = newNode;
+    else return NULL;
 
-	return newNode;
+    return newNode;
 }
 
 void InitTree_B(BiTree *biTree, ElemType rootData) {

@@ -8,10 +8,10 @@ int main() {
 	BiTree myTree;
 	InitTree(&myTree, 5);
 
-	AddNode(myTree, 0, 3);
-	AddNode(myTree, 1, 6);
-	AddNode(myTree->lchild, 0, 2);
-	AddNode(myTree->lchild, 1, 4);
+    AddNode(myTree, 0, 3);
+    AddNode(myTree, 1, 6);
+    AddNode(myTree->lchild, 0, 2);
+    AddNode(myTree->lchild, 1, 4);
 
 	PreOrderTraverse(myTree, Print);
 	printf("\n");
