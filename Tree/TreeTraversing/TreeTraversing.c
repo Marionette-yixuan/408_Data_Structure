@@ -2,7 +2,7 @@
 // Created by マリオネット on 2021/7/19.
 //
 
-#include "TreeTraversion.h"
+#include "TreeTraversing.h"
 
 void InitTree_T(TrTree *trTree, ElemType rootData) {
     TrTNode *rootNode = (TrTNode *) malloc(sizeof(TrTNode));

@@ -2,7 +2,7 @@
 // Created by マリオネット on 2021/7/19.
 //
 
-#include "TreeTraversion.h"
+#include "TreeTraversing.h"
 
 int main() {
 	TrTree myTrTree;
