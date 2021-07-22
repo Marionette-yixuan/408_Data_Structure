@@ -24,4 +24,5 @@ add_executable(TreeStoreStructure Tree/TreeStoreStructure/TreeStoreStructure.c T
 add_executable(TreeConversion Tree/TreeConversion/TreeConversion.c Tree/TreeConversion/TreeConversion.h Tree/TreeConversion/TreeConversionMain.c)
 add_executable(TreeTraversing Tree/TreeTraversing/TreeTraversing.c Tree/TreeTraversing/TreeTraversing.h Tree/TreeTraversing/TreeTraversingMain.c)
 add_executable(HuffmanTree Tree/HuffmanTree/HuffmanTree.c Tree/HuffmanTree/HuffmanTree.h Tree/HuffmanTree/HuffmanTreeMain.c)
+add_executable(BinarySearchTree Tree/BinarySearchTree/BinarySearchTree.c Tree/BinarySearchTree/BinarySearchTree.h Tree/BinarySearchTree/BinarySearchTreeMain.c)
 add_executable(Expr Expr.c)
