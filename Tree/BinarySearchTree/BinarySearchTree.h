@@ -19,8 +19,9 @@ typedef struct BSTNode {
   struct BSTNode *lChild, *rChild;
 } BSTNode, *BSTree;
 
+void Create(BSTree *T, int *keys, int length);      // 二叉排序树的初始化
 BSTNode *Search(BSTree T, int key);                 // 二叉排序树的查找
 bool Insert(BSTree T, int key);                     // 二叉排序树的插入
-void Create(BSTree *T, int *keys, int length);      // 二叉排序树的初始化
+bool Delete(BSTree T, int key);                     // 二叉排序树的删除
 
 #endif

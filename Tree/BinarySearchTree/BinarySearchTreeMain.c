@@ -5,9 +5,10 @@
 #include "BinarySearchTree.h"
 
 int main() {
-    int keys[8] = {50, 66, 60, 26, 21, 30 ,70, 68};
+    int keys[9] = {50, 66, 60, 26, 21, 30, 35, 70, 68};
     BSTree bsTree;
-    Create(&bsTree, keys, 8);
+    Create(&bsTree, keys, 9);
+    Delete(bsTree, 30);
 
     return 0;
 }
