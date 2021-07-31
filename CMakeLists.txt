@@ -25,4 +25,5 @@ add_executable(TreeConversion Tree/TreeConversion/TreeConversion.c Tree/TreeConv
 add_executable(TreeTraversing Tree/TreeTraversing/TreeTraversing.c Tree/TreeTraversing/TreeTraversing.h Tree/TreeTraversing/TreeTraversingMain.c)
 add_executable(HuffmanTree Tree/HuffmanTree/HuffmanTree.c Tree/HuffmanTree/HuffmanTree.h Tree/HuffmanTree/HuffmanTreeMain.c)
 add_executable(BinarySearchTree Tree/BinarySearchTree/BinarySearchTree.c Tree/BinarySearchTree/BinarySearchTree.h Tree/BinarySearchTree/BinarySearchTreeMain.c)
+add_executable(GraphStorage Graph/GraphStorage/GraphStorage.c Graph/GraphStorage/GraphStorage.h Graph/GraphStorage/GraphStorageMain.c)
 add_executable(Expr Expr.c)
