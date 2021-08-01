@@ -35,11 +35,11 @@ typedef struct {
   int vertexNum, arcNum;                    // 顶点数、弧数
 } CLLGraph;
 
+/* 注意有向图中箭头是从tail指向head的 */
 void InitGraph(CLLGraph *cllGraph, const ElemType nodeValues[], int length);            // 根据顶点的数据集合构造顶点集合
-void AddArc(CLLGraph cllGraph, ElemType headValue, ElemType tailValue, int weight);     // 在指定顶点间添加一条弧
-void DelArc(CLLGraph cllGraph, ElemType headValue, ElemType tailValue);                 // 删除指定结点之间的一条弧
+void AddArc(CLLGraph *cllGraph, ElemType headValue, ElemType tailValue, int weight);    // 在指定顶点间添加一条弧
+void DelArc(CLLGraph *cllGraph, ElemType headValue, ElemType tailValue);                // 删除指定结点之间的一条弧
 int GetIndex(CLLGraph cllGraph, ElemType vertexValue);                                  // 根据顶点数据找到下标
-VertexNode *GetVNode(CLLGraph cllGraph, ElemType vertexValue);                          // 根据顶点数据返回顶点结点
 
 #endif // CROSS_LINK_LIST
 
