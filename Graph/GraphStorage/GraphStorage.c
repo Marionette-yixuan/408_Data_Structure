@@ -4,6 +4,8 @@
 
 #include "GraphStorage.h"
 
+#ifdef CROSS_LINK_LIST
+
 void InitGraph(CLLGraph *cllGraph, const ElemType nodeValues[], int length) {
     /* 初始化顶点数、边数 */
     cllGraph->arcNum = 0;
@@ -44,7 +46,7 @@ void AddArc(CLLGraph *cllGraph, ElemType headValue, ElemType tailValue, int weig
     ArcNode *lastHeadANode = headVNode->firstIn, *lastTailANode = tailVNode->firstOut;
     if (!lastHeadANode) {        // 若弧头顶点没有第一条边，则直接连到firstIn上
         headVNode->firstIn = arcNode;
-    } else {                    // 否则找到最后一条弧头边，连在它的后面
+    } else {                     // 否则找到最后一条弧头边，连在它的后面
         while (lastHeadANode->headNext) lastHeadANode = lastHeadANode->headNext;
         lastHeadANode->headNext = arcNode;
     }
@@ -89,3 +91,35 @@ int GetIndex(CLLGraph cllGraph, ElemType vertexValue) {
         if (cllGraph.vNodes[i].data == vertexValue) return i;
     return -1;
 }
+
+#endif // CROSS_LINK_LIST
+
+#ifdef ADHERE_MULTI_LIST
+
+void InitGraph(AMLGraph *amlGraph, const ElemType nodeValues[], int length) {
+    /* 初始化顶点数、边数 */
+    amlGraph->arcNum = 0;
+    amlGraph->vertexNum = 0;
+
+    /* nodeValues长度和最大顶点数取最小值作为循环次数 */
+    int loopCount = MaxGraphVertex < length ? MaxGraphVertex : length;
+    for (int i = 0; i < loopCount; i++) {
+        /* 将新顶点的数据填入集合中 */
+        amlGraph->vNodes[i].data = nodeValues[i];
+        amlGraph->vNodes[i].firstArc = NULL;
+
+        /* 增加顶点数 */
+        amlGraph->vertexNum++;
+    }
+    for (int i = loopCount; i < MaxGraphVertex; i++) {
+        /* 清空后续结点空间的信息 */
+        amlGraph->vNodes[i].data = '\0';
+        amlGraph->vNodes[i].firstArc = NULL;
+    }
+}
+
+void AddArc(AMLGraph *amlGraph, ElemType endValues[], int weight) {
+    // TODO: 邻接多重表添加一条边
+}
+
+#endif // ADHERE_LINK_LIST

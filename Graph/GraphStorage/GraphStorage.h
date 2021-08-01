@@ -16,7 +16,7 @@
 #define ElemType char
 #define MaxGraphVertex 100
 
-#define CROSS_LINK_LIST
+#define ADHERE_MULTI_LIST
 
 #ifdef CROSS_LINK_LIST
 
@@ -42,5 +42,29 @@ void DelArc(CLLGraph *cllGraph, ElemType headValue, ElemType tailValue);        
 int GetIndex(CLLGraph cllGraph, ElemType vertexValue);                                  // 根据顶点数据找到下标
 
 #endif // CROSS_LINK_LIST
+
+#ifdef ADHERE_MULTI_LIST
+
+/* 邻接多重表存储无向图 */
+typedef struct ArcNode {
+  int endVertexes[2];                       // 边关联的两个顶点的编号，这里为了强调两个端点的平等性所以用了数组
+  int weight;                               // 边的权值
+  struct ArcNode *nextArcs[2];              // 两个端点的下一条边
+} ArcNode;
+typedef struct {
+  ElemType data;                            // 顶点的数据
+  ArcNode *firstArc;                        // 该顶点的第一条边
+} VertexNode;
+typedef struct {
+  VertexNode vNodes[MaxGraphVertex];        // 顶点元素集合
+  int vertexNum, arcNum;                    // 顶点数、边数
+} AMLGraph;
+
+void InitGraph(AMLGraph *amlGraph, const ElemType nodeValues[], int length);
+void AddArc(AMLGraph *amlGraph, ElemType endValues[], int weight);
+void DelArc(AMLGraph *amlGraph, ElemType endValues[]);
+int GetIndex(AMLGraph amlGraph, ElemType vertexValue);
+
+#endif
 
 #endif
