@@ -43,6 +43,7 @@ void AddArc(CLLGraph *cllGraph, ElemType headValue, ElemType tailValue, int weig
     arcNode->tailNext = NULL;
 
     /* 插入十字链表 */
+    /* 这里使用的是插在链表的最后面，而邻接多重表使用的是插在表的最前端（很明显插在头部比较快） */
     ArcNode *lastHeadANode = headVNode->firstIn, *lastTailANode = tailVNode->firstOut;
     if (!lastHeadANode) {        // 若弧头顶点没有第一条边，则直接连到firstIn上
         headVNode->firstIn = arcNode;
@@ -118,8 +119,33 @@ void InitGraph(AMLGraph *amlGraph, const ElemType nodeValues[], int length) {
     }
 }
 
-void AddArc(AMLGraph *amlGraph, ElemType endValues[], int weight) {
-    // TODO: 邻接多重表添加一条边
+void AddArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue, int weight) {
+    /* 头尾的顶点编号 & 顶点结点 */
+    int iIndex = GetIndex(*amlGraph, iValue), jIndex = GetIndex(*amlGraph, jValue);
+    VertexNode *iVNode = &amlGraph->vNodes[iIndex], *jVNode = &amlGraph->vNodes[jIndex];
+    /* 创建新边结点 */
+    ArcNode *arcNode = (ArcNode *) malloc(sizeof(ArcNode));
+    arcNode->endVertexes[0] = iIndex;           // 所有0下标对应的都是i顶点，1下标对应j顶点，保持一致
+    arcNode->endVertexes[1] = jIndex;
+    arcNode->weight = weight;
+
+    /* 插入邻接多重表，直接插在顶点结点的fisrtArc处，为了方便找到同顶点的下一条边 */
+    arcNode->nextArcs[0] = iVNode->firstArc;
+    arcNode->nextArcs[1] = jVNode->firstArc;
+    iVNode->firstArc = arcNode;
+    jVNode->firstArc = arcNode;
+
+    amlGraph->arcNum++;
+}
+
+void DelArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue) {
+    // TODO: 邻接多重表删除边
+}
+
+int GetIndex(AMLGraph amlGraph, ElemType vertexValue) {
+    for (int i = 0; i < amlGraph.vertexNum; i++)
+        if (amlGraph.vNodes[i].data == vertexValue) return i;
+    return -1;
 }
 
 #endif // ADHERE_LINK_LIST

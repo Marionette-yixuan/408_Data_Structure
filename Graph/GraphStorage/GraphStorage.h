@@ -49,7 +49,7 @@ int GetIndex(CLLGraph cllGraph, ElemType vertexValue);                          
 typedef struct ArcNode {
   int endVertexes[2];                       // 边关联的两个顶点的编号，这里为了强调两个端点的平等性所以用了数组
   int weight;                               // 边的权值
-  struct ArcNode *nextArcs[2];              // 两个端点的下一条边
+  struct ArcNode *nextArcs[2];              // 两个端点的下一条边，下标对应顶点
 } ArcNode;
 typedef struct {
   ElemType data;                            // 顶点的数据
@@ -61,8 +61,8 @@ typedef struct {
 } AMLGraph;
 
 void InitGraph(AMLGraph *amlGraph, const ElemType nodeValues[], int length);
-void AddArc(AMLGraph *amlGraph, ElemType endValues[], int weight);
-void DelArc(AMLGraph *amlGraph, ElemType endValues[]);
+void AddArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue, int weight);
+void DelArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue);
 int GetIndex(AMLGraph amlGraph, ElemType vertexValue);
 
 #endif
