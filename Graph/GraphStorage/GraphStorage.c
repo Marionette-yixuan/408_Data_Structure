@@ -72,17 +72,19 @@ void DelArc(CLLGraph *cllGraph, ElemType headValue, ElemType tailValue) {
     if (lastHeadANode->tailVertex == tailIndex) {        // 在弧头处只需判断弧尾是否正确
         delNode = lastHeadANode;
         headVNode->firstIn = delNode->headNext;
-    } else while (lastHeadANode->headNext->tailVertex != tailIndex) lastHeadANode = lastHeadANode->headNext;
+    } else {
+        while (lastHeadANode->headNext->tailVertex != tailIndex) lastHeadANode = lastHeadANode->headNext;
+        delNode = lastHeadANode->headNext;
+        lastHeadANode->headNext = delNode->headNext;
+    }
     if (lastTailANode->headVertex == headIndex) {        // 在弧尾处只需判断弧头是否正确
         delNode = lastTailANode;
         tailVNode->firstOut = delNode->tailNext;
-    } else while (lastTailANode->tailNext->headVertex != headIndex) lastTailANode = lastTailANode->tailNext;
-
-    if (!delNode) {             // 如果此时delNode仍为NULL，说明它不是头尾端点的第一条边（上面两个if都没进去）
-        delNode = lastHeadANode->headNext;
-        lastHeadANode->headNext = delNode->headNext;
+    } else {
+        while (lastTailANode->tailNext->headVertex != headIndex) lastTailANode = lastTailANode->tailNext;
         lastTailANode->tailNext = delNode->tailNext;
     }
+
     free(delNode);
     cllGraph->arcNum--;
 }
@@ -140,12 +142,74 @@ void AddArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue, int weight) {
 
 void DelArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue) {
     // TODO: 邻接多重表删除边
+    /* 头尾的顶点编号 & 顶点结点 */
+    int iIndex = GetIndex(*amlGraph, iValue), jIndex = GetIndex(*amlGraph, jValue);
+    VertexNode *iVNode = &amlGraph->vNodes[iIndex], *jVNode = &amlGraph->vNodes[jIndex];
+
+    /* 分别找到要删除结点在两个端点链表的上一条边 */
+    ArcNode *iLastANode = iVNode->firstArc, *jLastANode = jVNode->firstArc, *delNode = NULL;
+    int isIFirst = IsArc(*iLastANode, iIndex, jIndex), isJFirst = IsArc(*jLastANode, iIndex, jIndex);
+    /* 处理i端点 */
+    if (isIFirst != -1) {        // i端点的第一条边就是要删除的边
+        delNode = iLastANode;       // 删除的边结点
+        iVNode->firstArc = delNode->nextArcs[isIFirst];         // isIFirst代表删除的边中i端点的下一条边存储在哪个位置
+    } else {
+        while (true) {
+            /* 判断边结点的nextArcs的0位置还是1位置是i端点，然后循环找到删除结点的上一个结点 */
+            if (iLastANode->endVertexes[0] == iIndex) {
+                if (IsArc(*iLastANode->nextArcs[0], iIndex, jIndex) != -1) break;
+                else iLastANode = iLastANode->nextArcs[0];
+            } else if (iLastANode->endVertexes[1] == iIndex) {
+                if (IsArc(*iLastANode->nextArcs[1], iIndex, jIndex) != -1) break;
+                else iLastANode = iLastANode->nextArcs[1];
+            }
+        }
+        /* 找到删除结点的上一个结点后，将指针越过删除结点指向下一个结点 */
+        if (iLastANode->endVertexes[0] == iIndex) {
+            delNode = iLastANode->nextArcs[0];
+            iLastANode->nextArcs[0] = delNode->nextArcs[IsArc(*delNode, iIndex, jIndex)];
+        } else {        // iLastANode->endVertexes[1] == iIndex
+            delNode = iLastANode->nextArcs[1];
+            iLastANode->nextArcs[1] = delNode->nextArcs[IsArc(*delNode, iIndex, jIndex)];
+        }
+    }
+    /* 处理j端点 */
+    if (isJFirst != -1) {
+        delNode = jLastANode;
+        jVNode->firstArc = delNode->nextArcs[1 - isJFirst];         // 上面判断isJFirst时依旧是先i后j，所以这里0代表j在1，1代表j在0
+    } else {
+        while (true) {
+            if (jLastANode->endVertexes[0] == jIndex) {
+                if (IsArc(*jLastANode->nextArcs[0], iIndex, jIndex) != -1) break;
+                else jLastANode = jLastANode->nextArcs[0];
+            } else if (jLastANode->endVertexes[1] == jIndex) {
+                if (IsArc(*jLastANode->nextArcs[1], iIndex, jIndex) != -1) break;
+                else jLastANode = jLastANode->nextArcs[1];
+            }
+        }
+        if (jLastANode->endVertexes[0] == jIndex) {      // 处理i结点时一定已经找到了要删除的结点delNode，所以不会出现delNode为NULL的情况
+            jLastANode->nextArcs[0] = delNode->nextArcs[1 - IsArc(*delNode, iIndex, jIndex)];
+        } else {        // iLastANode->endVertexes[1] == jIndex
+            jLastANode->nextArcs[1] = delNode->nextArcs[1 - IsArc(*delNode, iIndex, jIndex)];
+        }
+    }
+
+    free(delNode);
+    amlGraph->arcNum--;
 }
 
 int GetIndex(AMLGraph amlGraph, ElemType vertexValue) {
     for (int i = 0; i < amlGraph.vertexNum; i++)
         if (amlGraph.vNodes[i].data == vertexValue) return i;
     return -1;
+}
+
+int IsArc(ArcNode targetNode, int iIndex, int jIndex) {
+    if (targetNode.endVertexes[0] == iIndex && targetNode.endVertexes[1] == jIndex)
+        return 0;
+    else if (targetNode.endVertexes[0] == jIndex && targetNode.endVertexes[1] == iIndex)
+        return 1;
+    else return -1;
 }
 
 #endif // ADHERE_LINK_LIST

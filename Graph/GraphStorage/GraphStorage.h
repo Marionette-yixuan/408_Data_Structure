@@ -64,6 +64,9 @@ void InitGraph(AMLGraph *amlGraph, const ElemType nodeValues[], int length);
 void AddArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue, int weight);
 void DelArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue);
 int GetIndex(AMLGraph amlGraph, ElemType vertexValue);
+/* 判断targetNode的两端是否为i端点和j端点，如果是，则返回0: targetNode.endVertexes[0] == i, 1: targetNode.endVertexes[1] = i */
+/* 如果不是，返回-1 */
+int IsArc(ArcNode targetNode, int iIndex, int jIndex);
 
 #endif
 

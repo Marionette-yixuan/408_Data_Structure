@@ -11,7 +11,7 @@ int main() {
     InitGraph(&cllGraph, vertexes, sizeof(vertexes) / sizeof(ElemType));
     AddArc(&cllGraph, 'A', 'B', 0);
     AddArc(&cllGraph, 'A', 'C', 0);
-    DelArc(&cllGraph, 'A', 'B');
+    DelArc(&cllGraph, 'A', 'C');
 #endif // CROSS_LINK_LIST
 
 #ifdef ADHERE_MULTI_LIST
@@ -20,6 +20,7 @@ int main() {
     InitGraph(&amlGraph, vertexes, sizeof(vertexes) / sizeof(ElemType));
     AddArc(&amlGraph, 'A', 'B', 0);
     AddArc(&amlGraph, 'A', 'C', 0);
+    DelArc(&amlGraph, 'B', 'A');
 #endif // ADHERE_MULTI_LIST
     return 0;
 }
