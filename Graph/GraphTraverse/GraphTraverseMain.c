@@ -20,5 +20,6 @@ int main() {
     ElemType vertexes[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
     InitGraph(&myGraph, vertexes, edges, sizeof(vertexes) / sizeof(vertexes[0]));
     BFSTraverse(myGraph);
+    DFSTraverse(myGraph);
     return 0;
 }

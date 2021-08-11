@@ -26,10 +26,10 @@ void InitGraph(MatGraph *matGraph, const ElemType vertexes[], bool edges[][8], i
     matGraph->edgeNum = edgeNum >> 1;
 }
 
-int NextNeighbour(MatGraph matGraph, int verIndex, int lastIndex) {
+int NextNeighbour(MatGraph matGraph, int verIndex) {
     bool *edge = matGraph.edges[verIndex];          // 取出邻接矩阵中verIndex所对应的行
-    for (int i = lastIndex + 1; i < matGraph.vertexNum; i++)
-        if (*(edge + i)) return i;
+    for (int i = 0; i < matGraph.vertexNum; i++)
+        if (*(edge + i) && !visited[i]) return i;   // 有边，且未被访问
     return -1;
 }
 
@@ -42,6 +42,7 @@ void BFSTraverse(MatGraph matGraph) {
     /* 依次广度优先访问每个未被访问的结点 */
     for (int i = 0; i < matGraph.vertexNum; i++)
         if (!visited[i]) BFS(matGraph, i);
+    printf("\n");
 }
 
 void BFS(MatGraph matGraph, int verIndex) {
@@ -55,15 +56,32 @@ void BFS(MatGraph matGraph, int verIndex) {
     while (QueueLength(supQueue)) {
         int outIndex;
         DeQueue(&supQueue, &outIndex);
-        for (int i = NextNeighbour(matGraph, outIndex, -1);
-             i >= 0; i = NextNeighbour(matGraph, outIndex, i)) {
-            if(!visited[i]) {
+        for (int i = NextNeighbour(matGraph, outIndex);
+             i >= 0; i = NextNeighbour(matGraph, outIndex)) {
+            if (!visited[i]) {
                 printf("%c ", matGraph.vertexes[i]);
                 visited[i] = true;
                 EnQueue(&supQueue, (char) i);
             } // end if
         } //end for
     } // end while
+}
+
+void DFSTraverse(MatGraph matGraph) {
+    for (int i = 0; i < MaxGraphVertex; i++)
+        visited[i] = false;
+    for (int i = 0; i < matGraph.vertexNum; i++)
+        if (!visited[i]) DFS(matGraph, i);
+}
+
+void DFS(MatGraph matGraph, int verIndex) {
+    printf("%c ", matGraph.vertexes[verIndex]);
+    visited[verIndex] = true;
+
+    for (int i = NextNeighbour(matGraph, verIndex);
+         i >= 0; i = NextNeighbour(matGraph, verIndex)) {
+        if (!visited[i]) DFS(matGraph, i);
+    }
 }
 
 /* 队列部分 */

@@ -42,8 +42,10 @@ bool visited[MaxGraphVertex];           // 访问标记数组
 LinkQueue supQueue;                     // 辅助队列
 
 void InitGraph(MatGraph *matGraph, const ElemType vertexes[], bool edges[][8], int vertexNum);      // 胡写的一个初始化函数
-int NextNeighbour(MatGraph matGraph, int verIndex, int lastIndex);      // 从matGraph图中找到verIndex的下一个邻接顶点，找第一个的话可以lastIndex = -1
+int NextNeighbour(MatGraph matGraph, int verIndex);         // 从matGraph图中找到verIndex的下一个邻接顶点
 void BFSTraverse(MatGraph matGraph);                // 广度优先遍历matGraph
 void BFS(MatGraph matGraph, int verIndex);          // 从verIndex开始广度优先遍历matGraph
+void DFSTraverse(MatGraph matGraph);                // 深度优先遍历matGraph
+void DFS(MatGraph matGraph, int verIndex);          // 从verIndex开始深度优先遍历matGraph
 
 #endif
