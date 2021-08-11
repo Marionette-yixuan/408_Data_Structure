@@ -27,4 +27,5 @@ add_executable(HuffmanTree Tree/HuffmanTree/HuffmanTree.c Tree/HuffmanTree/Huffm
 add_executable(BinarySearchTree Tree/BinarySearchTree/BinarySearchTree.c Tree/BinarySearchTree/BinarySearchTree.h Tree/BinarySearchTree/BinarySearchTreeMain.c)
 add_executable(GraphStorage Graph/GraphStorage/GraphStorage.c Graph/GraphStorage/GraphStorage.h Graph/GraphStorage/GraphStorageMain.c)
 add_executable(GraphTraverse Graph/GraphTraverse/GraphTraverse.c Graph/GraphTraverse/GraphTraverse.h Graph/GraphTraverse/GraphTraverseMain.c)
+add_executable(MinSpanningTree Graph/MinSpanningTree/MinSpanningTree.c Graph/MinSpanningTree/MinSpanningTree.h Graph/MinSpanningTree/MinSpanningTreeMain.c)
 add_executable(Expr Expr.c)
