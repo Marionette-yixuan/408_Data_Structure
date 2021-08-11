@@ -141,7 +141,6 @@ void AddArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue, int weight) {
 }
 
 void DelArc(AMLGraph *amlGraph, ElemType iValue, ElemType jValue) {
-    // TODO: 邻接多重表删除边
     /* 头尾的顶点编号 & 顶点结点 */
     int iIndex = GetIndex(*amlGraph, iValue), jIndex = GetIndex(*amlGraph, jValue);
     VertexNode *iVNode = &amlGraph->vNodes[iIndex], *jVNode = &amlGraph->vNodes[jIndex];
