@@ -1,8 +1,8 @@
 //
-// Created by マリオネット on 2021/8/11.
+// Created by マリオネット on 2021/8/12.
 //
 
-#include "GraphTraverse.h"
+#include "MinDistance.h"
 
 void InitGraph(MatGraph *matGraph, const ElemType vertexes[], bool edges[][8], int vertexNum) {
     matGraph->vertexNum = vertexNum;
@@ -33,54 +33,43 @@ int NextNeighbour(MatGraph matGraph, int verIndex) {
     return -1;
 }
 
-void BFSTraverse(MatGraph matGraph) {
-    /* 访问标记数组重置 */
-    for (int i = 0; i < MaxGraphVertex; i++)
-        visited[i] = false;
-    /* 初始化辅助队列 */
+void BFSMinDistance(MatGraph matGraph, int sourceIndex) {       // 一定是连通图
     InitQueue(&supQueue);
-    /* 依次广度优先访问每个未被访问的结点 */
-    for (int i = 0; i < matGraph.vertexNum; i++)
-        if (!visited[i]) BFS(matGraph, i);
-    printf("\n");
-}
-
-void BFS(MatGraph matGraph, int verIndex) {
-    /* 访问verIndex结点 */
-    printf("%c ", matGraph.vertexes[verIndex]);
-    visited[verIndex] = true;
-
-    /* 顶点verIndex入队 */
-    EnQueue(&supQueue, verIndex);
-
+    /* 两个结果数组：path[i]代表从源点访问到i顶点的最后一条路径，dis[i]代表源点到i顶点的路径长度 */
+    int dis[MaxGraphVertex], path[MaxGraphVertex];
+    for (int i = 0; i < MaxGraphVertex; i++) {
+        dis[i] = inf;
+        path[i] = -1;
+    }
+    dis[sourceIndex] = 0;       // 标记源点
+    visited[sourceIndex] = true;
+    EnQueue(&supQueue, sourceIndex);
     while (QueueLength(supQueue)) {
         int outIndex;
         DeQueue(&supQueue, &outIndex);
         for (int i = NextNeighbour(matGraph, outIndex);
              i >= 0; i = NextNeighbour(matGraph, outIndex)) {
             if (!visited[i]) {
-                printf("%c ", matGraph.vertexes[i]);
+                /* 更新路径信息 */
+                dis[i] = dis[outIndex] + 1;         // i顶点路径长度为outIndex（上一层顶点）+1
+                path[i] = outIndex;                 // i顶点的访问前驱为outIndex顶点
                 visited[i] = true;
-                EnQueue(&supQueue, (char) i);
+                EnQueue(&supQueue, i);
             } // end if
-        } //end for
+        } // end for
     } // end while
-}
 
-void DFSTraverse(MatGraph matGraph) {
-    for (int i = 0; i < MaxGraphVertex; i++)
-        visited[i] = false;
-    for (int i = 0; i < matGraph.vertexNum; i++)
-        if (!visited[i]) DFS(matGraph, i);
-}
-
-void DFS(MatGraph matGraph, int verIndex) {
-    printf("%c ", matGraph.vertexes[verIndex]);
-    visited[verIndex] = true;
-
-    for (int i = NextNeighbour(matGraph, verIndex);
-         i >= 0; i = NextNeighbour(matGraph, verIndex)) {
-        if (!visited[i]) DFS(matGraph, i);
+    /* 输出路径信息 */
+    for(int i = 0; i < matGraph.vertexNum; i++) {
+        printf("顶点%c到源点%c的路径长度为: %d, 路径为: ",
+               matGraph.vertexes[i], matGraph.vertexes[sourceIndex],
+               dis[i]);
+        int lastVer = i;
+        while(lastVer != sourceIndex) {
+            printf("%c<-", matGraph.vertexes[lastVer]);
+            lastVer = path[lastVer];
+        }
+        printf("%c\n", matGraph.vertexes[lastVer]);
     }
 }
 
@@ -123,4 +112,3 @@ bool DeQueue(LinkQueue *Q, int *e) {
     free(de_node);
     return true;
 }
-
