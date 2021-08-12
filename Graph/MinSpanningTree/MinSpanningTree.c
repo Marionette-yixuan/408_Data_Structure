@@ -56,7 +56,7 @@ void Prim(MatGraph matGraph) {
         int otherEnd = minWeight[1][minVertex];
         isAdd[minVertex] = true;
         minWeight[0][minVertex] = 0;
-        printf("{%c, %c}\n", matGraph.vertexes[otherEnd], matGraph.vertexes[minVertex]);        // 将加入树的边输出
+        printf("{%c, %c}, ", matGraph.vertexes[otherEnd], matGraph.vertexes[minVertex]);        // 将加入树的边输出
 
         /* 更新minWeight数组 */
         for (int i = 0; i < vertexNum; i++) {
@@ -76,4 +76,51 @@ void Prim(MatGraph matGraph) {
         for (int i = 0; i < matGraph.vertexNum; i++)
             verCount += isAdd[i];
     }
+    printf("\n");
+}
+
+void Kruskal(MatGraph matGraph) {
+    int vertexNum = matGraph.vertexNum;
+    int unionSet[MaxGraphVertex];       // 给每个顶点进行标号，代替并查集
+    for (int i = 0; i < vertexNum; i++)
+        unionSet[i] = i;        // 初始为每个结点打上不同的标号
+
+    /* 插入排序每条边 */
+    EdgeList sortList = (EdgeNode *) malloc(sizeof(EdgeNode));
+    sortList->weight = inf, sortList->next = NULL, sortList->ends[0] = -1, sortList->ends[1] = -1;
+    EdgeNode *lastNode = sortList;
+    for (int i = 0; i < vertexNum; i++) {        // 遍历所有边（邻接矩阵的上三角）
+        for (int j = i; j < vertexNum; j++) {
+            int weight = matGraph.edges[i][j];
+            if (weight == inf || weight == 0) continue;         // 无边，跳过
+
+            lastNode = sortList;
+            while (lastNode->next && lastNode->next->weight < weight)        // 插入排序
+                lastNode = lastNode->next;              // 结束后新边结点插在lastNode后面
+
+            EdgeNode *newNode = (EdgeNode *) malloc(sizeof(EdgeNode));
+            newNode->weight = weight;
+            newNode->ends[0] = i, newNode->ends[1] = j;
+            newNode->next = lastNode->next;
+            lastNode->next = newNode;
+        }
+    }
+
+    /* 循环加入每条边 */
+    lastNode = sortList->next;
+    while (lastNode) {
+        /* 判断最小边的两顶点是否属于同一集合，属于则跳过，不属于则继续 */
+        int end0 = lastNode->ends[0], end1 = lastNode->ends[1];
+        lastNode = lastNode->next;
+        int uni0 = unionSet[end0], uni1 = unionSet[end1];
+        if (uni0 == uni1) continue;      // 如果两个顶点被打上同一个标号，说明它们属于一个连通分量，再连边则会出现回路
+
+        /* 输出边的信息 */
+        printf("{%c, %c}, ", matGraph.vertexes[end0], matGraph.vertexes[end1]);
+
+        /* 将两边打上同一个标号（下标大的改为下标小的编号） */
+        for (int i = 0; i < vertexNum; i++)
+            if (unionSet[i] == uni1) unionSet[i] = uni0;
+    }
+    printf("\n");
 }

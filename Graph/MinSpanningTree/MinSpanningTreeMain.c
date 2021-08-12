@@ -18,6 +18,7 @@ int main() {
     ElemType vertexes[] = {'A', 'B', 'C', 'D', 'E', 'F'};
     InitGraph(&myGraph, vertexes, edges, sizeof(vertexes) / sizeof(vertexes[0]));
     Prim(myGraph);
+    Kruskal(myGraph);
     return 0;
 }
 

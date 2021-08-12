@@ -27,4 +27,12 @@ typedef struct {
 void InitGraph(MatGraph *matGraph, const ElemType vertexes[], int edges[][6], int vertexNum);      // 胡写的一个初始化函数
 void Prim(MatGraph matGraph);
 
+typedef struct EdgeNode {       // 用于为每条边排序的链表
+  int weight;       // 权值
+  int ends[2];      // 两边的顶点
+  struct EdgeNode *next;        // 下一条边
+} EdgeNode, *EdgeList;
+
+void Kruskal(MatGraph matGraph);
+
 #endif
