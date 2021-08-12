@@ -4,6 +4,7 @@
 
 #include "MinDistance.h"
 
+// BFS
 void InitGraph(MatGraph *matGraph, const ElemType vertexes[], bool edges[][8], int vertexNum) {
     matGraph->vertexNum = vertexNum;
     int edgeNum = 0, i = 0, j = 0;
@@ -41,7 +42,7 @@ void BFSMinDistance(MatGraph matGraph, int sourceIndex) {       // 一定是连�
         dis[i] = inf;
         path[i] = -1;
     }
-    dis[sourceIndex] = 0;       // 标记源点
+    dis[sourceIndex] = 0, path[sourceIndex] = sourceIndex;      // 标记源点
     visited[sourceIndex] = true;
     EnQueue(&supQueue, sourceIndex);
     while (QueueLength(supQueue)) {
@@ -60,12 +61,12 @@ void BFSMinDistance(MatGraph matGraph, int sourceIndex) {       // 一定是连�
     } // end while
 
     /* 输出路径信息 */
-    for(int i = 0; i < matGraph.vertexNum; i++) {
-        printf("顶点%c到源点%c的路径长度为: %d, 路径为: ",
-               matGraph.vertexes[i], matGraph.vertexes[sourceIndex],
+    for (int i = 0; i < matGraph.vertexNum; i++) {
+        printf("源点%c到顶点%c的路径长度为: %d, 路径为: ",
+               matGraph.vertexes[sourceIndex], matGraph.vertexes[i],
                dis[i]);
         int lastVer = i;
-        while(lastVer != sourceIndex) {
+        while (lastVer != sourceIndex) {
             printf("%c<-", matGraph.vertexes[lastVer]);
             lastVer = path[lastVer];
         }
@@ -112,3 +113,91 @@ bool DeQueue(LinkQueue *Q, int *e) {
     free(de_node);
     return true;
 }
+// end BFS
+
+// DijkstraMinDistance
+void InitDGraph(MaDGraph *maDGraph, const ElemType vertexes[], int edges[][5], int vertexNum) {
+    maDGraph->vertexNum = vertexNum;
+    int edgeNum = 0, i = 0, j = 0;
+    for (; i < vertexNum; i++)
+        maDGraph->vertexes[i] = vertexes[i];
+    for (; i < MaxGraphVertex; i++)
+        maDGraph->vertexes[i] = '\0';
+    for (i = 0; i < vertexNum; i++) {
+        for (j = 0; j < vertexNum; j++) {
+            maDGraph->edges[i][j] = edges[i][j];
+            edgeNum += edges[i][j] != inf;
+        }
+        for (; j < MaxGraphVertex; j++)
+            maDGraph->edges[i][j] = inf;
+    }
+    for (; i < MaxGraphVertex; i++) {
+        for (; j < MaxGraphVertex; j++)
+            maDGraph->edges[i][j] = inf;
+    }
+    maDGraph->edgeNum = edgeNum;
+}
+
+void DijkstraMinDistance(MaDGraph maDGraph, int sourceIndex) {
+    int vertexNum = maDGraph.vertexNum;
+    /* 维护三个数组 */
+    bool final[MaxGraphVertex];                 // 标记是否已找到i顶点的最短路径
+    int dis[MaxGraphVertex], path[MaxGraphVertex];      // i顶点的最短路径长度、最短路径直接前驱
+    for (int i = 0; i < MaxGraphVertex; i++) {
+        final[i] = false;
+        dis[i] = inf, path[i] = -1;
+    }
+    final[sourceIndex] = true;
+    dis[sourceIndex] = 0, path[sourceIndex] = sourceIndex;      // 标记源点
+
+    /* 初始更新dis和path数组 */
+    for (int i = 0; i < vertexNum; i++) {
+        if (maDGraph.edges[sourceIndex][i] != inf) {
+            dis[i] = maDGraph.edges[sourceIndex][i];
+            path[i] = sourceIndex;
+        }
+    }
+
+    int finalCount = 1;
+    while (finalCount < vertexNum) {
+        /* 选出最小的dis，加入到路径中 */
+        int minDis = inf, minIndex = -1;
+        for (int i = 0; i < vertexNum; i++) {
+            if (final[i]) continue;      // 如果已经有最短路径，则跳过
+            if (dis[i] < minDis) {       // 挑出最小的dis
+                minDis = dis[i];
+                minIndex = i;
+            }
+        }
+        final[minIndex] = true;
+
+        /* 根据最新加入的顶点更新dis和path数组 */
+        for (int i = 0; i < vertexNum; i++) {
+            int weight = maDGraph.edges[minIndex][i];
+            if(weight == inf)   continue;
+            if(dis[minIndex] + weight < dis[i]) {       // 找到了到i结点更短的路径
+                dis[i] = dis[minIndex] + weight;
+                path[i] = minIndex;
+            }
+        }
+
+        /* 统计加入的顶点数 */
+        finalCount = 0;
+        for (int i = 0; i < vertexNum; i++)
+            finalCount += final[i];
+    }
+
+    /* 输出路径信息 */
+    for (int i = 0; i < maDGraph.vertexNum; i++) {
+        printf("源点%c到顶点%c的路径长度为: %d, 路径为: ",
+               maDGraph.vertexes[sourceIndex], maDGraph.vertexes[i],
+               dis[i]);
+        int lastVer = i;
+        while (lastVer != sourceIndex) {
+            printf("%c<-", maDGraph.vertexes[lastVer]);
+            lastVer = path[lastVer];
+        }
+        printf("%c\n", maDGraph.vertexes[lastVer]);
+    }
+}
+// end DijkstraMinDistance
