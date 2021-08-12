@@ -56,4 +56,6 @@ typedef struct {
 void InitDGraph(MaDGraph *maDGraph, const ElemType vertexes[], int edges[][5], int vertexNum);      // 也是胡写的初始化函数
 void DijkstraMinDistance(MaDGraph maDGraph, int sourceIndex);
 
+void FloydMinDistance(MaDGraph maDGraph);
+
 #endif

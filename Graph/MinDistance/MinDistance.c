@@ -126,7 +126,7 @@ void InitDGraph(MaDGraph *maDGraph, const ElemType vertexes[], int edges[][5], i
     for (i = 0; i < vertexNum; i++) {
         for (j = 0; j < vertexNum; j++) {
             maDGraph->edges[i][j] = edges[i][j];
-            edgeNum += edges[i][j] != inf;
+            edgeNum += (edges[i][j] != inf) ? edges[i][j] != 0 : 0;
         }
         for (; j < MaxGraphVertex; j++)
             maDGraph->edges[i][j] = inf;
@@ -174,8 +174,8 @@ void DijkstraMinDistance(MaDGraph maDGraph, int sourceIndex) {
         /* 根据最新加入的顶点更新dis和path数组 */
         for (int i = 0; i < vertexNum; i++) {
             int weight = maDGraph.edges[minIndex][i];
-            if(weight == inf)   continue;
-            if(dis[minIndex] + weight < dis[i]) {       // 找到了到i结点更短的路径
+            if (weight == inf) continue;
+            if (dis[minIndex] + weight < dis[i]) {       // 找到了到i结点更短的路径
                 dis[i] = dis[minIndex] + weight;
                 path[i] = minIndex;
             }
@@ -201,3 +201,60 @@ void DijkstraMinDistance(MaDGraph maDGraph, int sourceIndex) {
     }
 }
 // end DijkstraMinDistance
+
+// FloydMinDistance
+void FloydMinDistance(MaDGraph maDGraph) {
+    const unsigned short vertexNum = maDGraph.vertexNum;
+    int A[MaxGraphVertex][MaxGraphVertex], path[MaxGraphVertex][MaxGraphVertex];
+
+    /* 初始化 */
+    for (int i = 0; i < vertexNum; i++) {
+        for (int j = 0; j < vertexNum; j++) {
+            A[i][j] = maDGraph.edges[i][j];
+            if(maDGraph.edges[i][j] == inf) path[i][j] = -1;
+            else path[i][j] = i;
+        }
+    }
+
+    /* 做vertexNum次循环 */
+    for (int k = 0; k < vertexNum; k++) {
+        for (int i = 0; i < vertexNum; i++) {
+            for (int j = 0; j < vertexNum; j++) {
+                if (i == j || A[i][k] == inf || A[k][j] == inf) continue;        // 这里使用了int的上限作为inf
+                // 如果不判断的话会发生上溢，造成严重后果
+                int newPath = A[i][k] + A[k][j];
+                if (newPath < A[i][j]) {
+                    A[i][j] = newPath;
+                    path[i][j] = k;
+                }
+            }
+        }
+    }
+
+    /* 输出A矩阵和path矩阵的路径信息 */
+    printf("A矩阵: \n\t");
+    for (int i = 0; i < vertexNum; i++)
+        printf("%c\t", maDGraph.vertexes[i]);
+    printf("\n");
+    for (int i = 0; i < vertexNum; i++) {
+        printf("%c\t", maDGraph.vertexes[i]);
+        for (int j = 0; j < vertexNum; j++)
+            printf("%d\t", A[i][j] == inf ? -1 : A[i][j]);
+        printf("\n");
+    }
+    printf("路径信息: \n");
+    for (int i = 0; i < vertexNum; i++) {
+        for (int j = 0; j < vertexNum; j++) {
+            if (i == j || A[i][j] == inf) continue;       // 没有路径
+            printf("从%c到%c的路径为: ", maDGraph.vertexes[i], maDGraph.vertexes[j]);
+            int lastVer = j;
+            while(lastVer != i) {
+                printf("%c<-", maDGraph.vertexes[lastVer]);
+                lastVer = path[i][lastVer];
+            }
+            printf("%c\n", maDGraph.vertexes[lastVer]);
+        }
+    }
+
+}
+// end FloydMinDistance
