@@ -29,4 +29,5 @@ add_executable(GraphStorage Graph/GraphStorage/GraphStorage.c Graph/GraphStorage
 add_executable(GraphTraverse Graph/GraphTraverse/GraphTraverse.c Graph/GraphTraverse/GraphTraverse.h Graph/GraphTraverse/GraphTraverseMain.c)
 add_executable(MinSpanningTree Graph/MinSpanningTree/MinSpanningTree.c Graph/MinSpanningTree/MinSpanningTree.h Graph/MinSpanningTree/MinSpanningTreeMain.c)
 add_executable(MinDistance Graph/MinDistance/MinDistance.c Graph/MinDistance/MinDistance.h Graph/MinDistance/MinDistanceMain.c)
+add_executable(BinarySearch Search/BinarySearch/BinarySearch.c Search/BinarySearch/BinarySearch.h Search/BinarySearch/BinarySearchMain.c)
 add_executable(Expr Expr.c)
