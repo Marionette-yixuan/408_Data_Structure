@@ -32,4 +32,5 @@ add_executable(MinDistance Graph/MinDistance/MinDistance.c Graph/MinDistance/Min
 add_executable(BinarySearch Search/BinarySearch/BinarySearch.c Search/BinarySearch/BinarySearch.h Search/BinarySearch/BinarySearchMain.c)
 add_executable(InsertSort Sort/InsertSort/InsertSort.c Sort/InsertSort/InsertSort.h Sort/InsertSort/InsertSortMain.c)
 add_executable(ShellSort Sort/ShellSort/ShellSort.c Sort/ShellSort/ShellSort.h Sort/ShellSort/ShellSortMain.c)
+add_executable(BubbleSort Sort/BubbleSort/BubbleSort.c Sort/BubbleSort/BubbleSort.h Sort/BubbleSort/BubbleSortMain.c)
 add_executable(Expr Expr.c)
