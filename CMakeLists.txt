@@ -36,4 +36,5 @@ add_executable(BubbleSort Sort/BubbleSort/BubbleSort.c Sort/BubbleSort/BubbleSor
 add_executable(QuickSort Sort/QuickSort/QuickSort.c Sort/QuickSort/QuickSort.h Sort/QuickSort/QuickSortMain.c)
 add_executable(SelectSort Sort/SelectSort/SelectSort.c Sort/SelectSort/SelectSort.h Sort/SelectSort/SelectSortMain.c)
 add_executable(HeapSort Sort/HeapSort/HeapSort.c Sort/HeapSort/HeapSort.h Sort/HeapSort/HeapSortMain.c)
+add_executable(MergeSort Sort/MergeSort/MergeSort.c Sort/MergeSort/MergeSort.h Sort/MergeSort/MergeSortMain.c)
 add_executable(Expr Expr.c)
